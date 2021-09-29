@@ -13,7 +13,7 @@ public class BingoCommands {
 
     public static BrigadierCommand getBrigadierCommand() {
         var dispatched = new CommandDispatcher<CommandSource>();
-
+/*
         LiteralArgumentBuilder<CommandSource> c = dispatched.register(LiteralArgumentBuilder.<CommandSource>literal("te")
                 .then(RequiredArgumentBuilder.argument("bar", StringArgumentType.word()).executes(c -> {
                     if (c.getSource()instanceof CommandSource source) {
@@ -21,8 +21,8 @@ public class BingoCommands {
                     }
                     return 1;
                 })));
-
-        return new BrigadierCommand(c);
+*/
+        return null;
     }
 
 }
