@@ -10,8 +10,11 @@ import com.velocitypowered.api.proxy.ProxyServer;
 
 import org.slf4j.Logger;
 
+import lombok.Getter;
 import us.jcedeno.commands.SendCommand;
 import us.jcedeno.commands.SpreadPlayers;
+import us.jcedeno.teams.velocity.VTeamManager;
+import us.jcedeno.utils.JsonConfig;
 
 /**
  * DedsafioProxy
@@ -22,6 +25,8 @@ import us.jcedeno.commands.SpreadPlayers;
 public class DedsafioProxy {
     private final ProxyServer server;
     private final Logger logger;
+    private @Getter VTeamManager teamManager;
+    private JsonConfig jsonConfig;
 
     @Inject
     public DedsafioProxy(ProxyServer server, Logger logger) {
@@ -31,6 +36,15 @@ public class DedsafioProxy {
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent e) {
+        try {
+            this.jsonConfig = new JsonConfig("secret.json");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        var redisUri = jsonConfig != null ? jsonConfig.getRedisUri() : null;
+        // Hook the team , ensure no nulls
+        this.teamManager = new VTeamManager(server, redisUri != null ? redisUri : "redis://147.182.135.68");
+        // Register commands
         var cmdManager = server.getCommandManager();
         var sendCmdMeta = cmdManager.metaBuilder("send").build();
         cmdManager.register(sendCmdMeta, new SendCommand(server));
