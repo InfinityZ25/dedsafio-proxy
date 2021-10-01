@@ -27,7 +27,7 @@ public class DedsafioProxy {
     private final @Getter ProxyServer server;
     private final Logger logger;
     private @Getter VTeamManager teamManager;
-    private JsonConfig jsonConfig;
+    private @Getter JsonConfig jsonConfig;
 
     @Inject
     public DedsafioProxy(ProxyServer server, Logger logger) {
@@ -53,6 +53,7 @@ public class DedsafioProxy {
         cmdManager.register(cmdManager.metaBuilder("spread").build(), new SpreadPlayers(server));
 
         cmdManager.register(cmdManager.metaBuilder("spread-teams").build(), new SpreadTeams(this));
+
     }
 
     public void sendResourcepack(Player player, String url) {
