@@ -66,7 +66,7 @@ public class DedsafioProxy {
 
         if (!e.getPreviousServer().isPresent()) {
             System.out.println("Server " + server.getServerInfo().getName());
-            sendResourcepack(e.getPlayer(), "https://www.dropbox.com/s/erka9far2yu8eho/BINGO_F_5.zip?dl=1");
+            sendResourcepack(e.getPlayer(), "https://www.dropbox.com/s/v36yf3edj51hrbu/BINGO_FINAL.zip?dl=1");
         }
 
     }
