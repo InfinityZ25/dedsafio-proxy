@@ -164,8 +164,16 @@ public abstract class TeamManager {
         backupDataset();
         teams.clear();
         this.dataset = newSet;
+        var syncCon = this.getRedisSyncConnection();
+        if (syncCon.hlen(dataset) != 0) {
+            // Restore all the current data
+            syncCon.hgetall(dataset).forEach((k, v) -> {
+                var team = gson.fromJson(v, Team.class);
+                teams.put(team.getTeamID(), team);
+            });
+        }
         if (communicate) {
-            getRedisSyncConnection().set("dataset_name", newSet);
+            syncCon.set("dataset_name", newSet);
             this.syncPipeline.communicateChangeOfDataset(newSet);
         }
     }
