@@ -64,6 +64,7 @@ public class Team extends BaseTeam {
     public boolean isMember(UUID uuid) {
         return members.stream().anyMatch(member -> member.getMostSignificantBits() == uuid.getMostSignificantBits());
     }
+    
 
     @Override
     public String toString() {

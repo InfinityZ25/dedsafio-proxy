@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import lombok.Getter;
 import us.jcedeno.commands.SendCommand;
 import us.jcedeno.commands.SpreadPlayers;
+import us.jcedeno.commands.SpreadTeams;
 import us.jcedeno.teams.velocity.VTeamManager;
 import us.jcedeno.utils.JsonConfig;
 
@@ -23,7 +24,7 @@ import us.jcedeno.utils.JsonConfig;
  */
 @Plugin(id = "dedsafio-bingo", name = "Dedsafio Bingo", version = "1.0", authors = { "jcedeno" })
 public class DedsafioProxy {
-    private final ProxyServer server;
+    private final @Getter ProxyServer server;
     private final Logger logger;
     private @Getter VTeamManager teamManager;
     private JsonConfig jsonConfig;
@@ -46,12 +47,12 @@ public class DedsafioProxy {
         this.teamManager = new VTeamManager(server, redisUri != null ? redisUri : "redis://147.182.135.68");
         // Register commands
         var cmdManager = server.getCommandManager();
-        var sendCmdMeta = cmdManager.metaBuilder("send").build();
-        cmdManager.register(sendCmdMeta, new SendCommand(server));
-        // server.getCommandManager().register(BingoCommands.getBrigadierCommand());
 
-        var spreadCmdMeta = cmdManager.metaBuilder("spread").build();
-        cmdManager.register(spreadCmdMeta, new SpreadPlayers(server));
+        cmdManager.register(cmdManager.metaBuilder("send").build(), new SendCommand(server));
+
+        cmdManager.register(cmdManager.metaBuilder("spread").build(), new SpreadPlayers(server));
+
+        cmdManager.register(cmdManager.metaBuilder("spread-teams").build(), new SpreadTeams(this));
     }
 
     public void sendResourcepack(Player player, String url) {
