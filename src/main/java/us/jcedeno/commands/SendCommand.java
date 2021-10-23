@@ -19,7 +19,7 @@ public class SendCommand implements SimpleCommand {
         var src = invocation.source();
         var args = invocation.arguments();
         if (args.length < 2) {
-            src.sendMessage(mini.parse("&cUsage: /send <player> <message>"));
+            src.sendMessage(mini.parse("<red>Usage: /send <player> <server>"));
             return;
         }
 

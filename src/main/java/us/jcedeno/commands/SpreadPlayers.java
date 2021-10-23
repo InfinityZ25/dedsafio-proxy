@@ -23,7 +23,7 @@ public class SpreadPlayers implements SimpleCommand {
         var src = invocation.source();
         var args = invocation.arguments();
         if (args.length < 1) {
-            src.sendMessage(mini.parse("&cUsage: /spread [servers]"));
+            src.sendMessage(mini.parse("<red>Usage: /spread [servers]"));
             return;
         }
 

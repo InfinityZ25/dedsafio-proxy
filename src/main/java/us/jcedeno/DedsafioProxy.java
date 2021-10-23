@@ -11,6 +11,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import org.slf4j.Logger;
 
 import lombok.Getter;
+import us.jcedeno.commands.GetResourcePack;
 import us.jcedeno.commands.SendCommand;
 import us.jcedeno.commands.SpreadPlayers;
 import us.jcedeno.commands.SpreadTeams;
@@ -24,6 +25,7 @@ import us.jcedeno.utils.JsonConfig;
  */
 @Plugin(id = "dedsafio-bingo", name = "Dedsafio Bingo", version = "1.0", authors = { "jcedeno" })
 public class DedsafioProxy {
+    public static final String RESOURCEPACK_URL = "https://www.dropbox.com/s/qk79fbc9m8fihol/BINGO_FINAL.zip?dl=1";
     private final @Getter ProxyServer server;
     private final Logger logger;
     private @Getter VTeamManager teamManager;
@@ -54,6 +56,9 @@ public class DedsafioProxy {
 
         cmdManager.register(cmdManager.metaBuilder("spread-teams").build(), new SpreadTeams(this));
 
+        cmdManager.register(cmdManager.metaBuilder("get-resourcepack").aliases("get-rp", "getrp").build(),
+                new GetResourcePack(this));
+
     }
 
     public void sendResourcepack(Player player, String url) {
@@ -66,7 +71,7 @@ public class DedsafioProxy {
 
         if (!e.getPreviousServer().isPresent()) {
             System.out.println("Server " + server.getServerInfo().getName());
-            sendResourcepack(e.getPlayer(), "https://www.dropbox.com/s/qk79fbc9m8fihol/BINGO_FINAL.zip?dl=1");
+            sendResourcepack(e.getPlayer(), RESOURCEPACK_URL);
         }
 
     }
