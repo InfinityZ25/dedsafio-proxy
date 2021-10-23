@@ -1,5 +1,7 @@
 package us.jcedeno;
 
+import java.util.concurrent.TimeUnit;
+
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
@@ -62,7 +64,7 @@ public class DedsafioProxy {
     }
 
     public void sendResourcepack(Player player, String url) {
-        player.sendResourcePackOffer(server.createResourcePackBuilder(url).setShouldForce(true).build());
+        player.sendResourcePackOffer(server.createResourcePackBuilder(url).setShouldForce(false).build());
     }
 
     @Subscribe
@@ -70,8 +72,10 @@ public class DedsafioProxy {
         var server = e.getServer();
 
         if (!e.getPreviousServer().isPresent()) {
+
             System.out.println("Server " + server.getServerInfo().getName());
-            sendResourcepack(e.getPlayer(), RESOURCEPACK_URL);
+            this.server.getScheduler().buildTask(this, () -> sendResourcepack(e.getPlayer(), RESOURCEPACK_URL))
+                    .delay(3, TimeUnit.SECONDS).schedule();
         }
 
     }

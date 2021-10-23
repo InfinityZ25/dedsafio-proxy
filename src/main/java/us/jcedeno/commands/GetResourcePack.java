@@ -1,5 +1,7 @@
 package us.jcedeno.commands;
 
+import java.util.concurrent.TimeUnit;
+
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 
@@ -19,8 +21,10 @@ public class GetResourcePack implements SimpleCommand {
     public void execute(Invocation invocation) {
         var src = invocation.source();
         if (src instanceof Player player) {
-            player.sendMessage(mini.parse("<green>You've succesfully requested the resourcepack."));
-            proxy.sendResourcepack(player, DedsafioProxy.RESOURCEPACK_URL);
+            player.sendMessage(mini.parse("<green>You've successfully requested the resourcepack."));
+            this.proxy.getServer().getScheduler()
+                    .buildTask(this.proxy, () -> proxy.sendResourcepack(player, DedsafioProxy.RESOURCEPACK_URL))
+                    .delay(3, TimeUnit.SECONDS).schedule();
         }
 
     }
